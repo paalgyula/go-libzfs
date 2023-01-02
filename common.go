@@ -4,8 +4,6 @@
 //
 // TODO: Adding to the pool. (Add the given vdevs to the pool)
 // TODO: Scan for pools.
-//
-//
 package zfs
 
 /*
@@ -30,22 +28,21 @@ type VDevType string
 
 func init() {
 	C.go_libzfs_init()
-	return
 }
 
 // Types of Virtual Devices
 const (
 	VDevTypeRoot      VDevType = "root"      // VDevTypeRoot root device in ZFS pool
-	VDevTypeMirror             = "mirror"    // VDevTypeMirror mirror device in ZFS pool
-	VDevTypeReplacing          = "replacing" // VDevTypeReplacing replacing
-	VDevTypeRaidz              = "raidz"     // VDevTypeRaidz RAIDZ device
-	VDevTypeDisk               = "disk"      // VDevTypeDisk device is disk
-	VDevTypeFile               = "file"      // VDevTypeFile device is file
-	VDevTypeMissing            = "missing"   // VDevTypeMissing missing device
-	VDevTypeHole               = "hole"      // VDevTypeHole hole
-	VDevTypeSpare              = "spare"     // VDevTypeSpare spare device
-	VDevTypeLog                = "log"       // VDevTypeLog ZIL device
-	VDevTypeL2cache            = "l2cache"   // VDevTypeL2cache cache device (disk)
+	VDevTypeMirror    VDevType = "mirror"    // VDevTypeMirror mirror device in ZFS pool
+	VDevTypeReplacing VDevType = "replacing" // VDevTypeReplacing replacing
+	VDevTypeRaidz     VDevType = "raidz"     // VDevTypeRaidz RAIDZ device
+	VDevTypeDisk      VDevType = "disk"      // VDevTypeDisk device is disk
+	VDevTypeFile      VDevType = "file"      // VDevTypeFile device is file
+	VDevTypeMissing   VDevType = "missing"   // VDevTypeMissing missing device
+	VDevTypeHole      VDevType = "hole"      // VDevTypeHole hole
+	VDevTypeSpare     VDevType = "spare"     // VDevTypeSpare spare device
+	VDevTypeLog       VDevType = "log"       // VDevTypeLog ZIL device
+	VDevTypeL2cache   VDevType = "l2cache"   // VDevTypeL2cache cache device (disk)
 )
 
 // Prop type to enumerate all different properties suppoerted by ZFS
@@ -181,6 +178,7 @@ const (
 	PoolPropCheckpoint
 	PoolPropLoadGuid
 	PoolPropAutotrim
+	PoolPropUnknown // TODO: examine wtf is this
 	PoolNumProps
 )
 

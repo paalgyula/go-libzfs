@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	zfs "github.com/bicomsystems/go-libzfs"
+	zfs "github.com/paalgyula/go-libzfs"
 )
 
 /* ------------------------------------------------------------------------- */
@@ -100,7 +100,7 @@ func zpoolTestPoolCreate(t *testing.T) {
 	sdevs = []zfs.VDevTree{
 		{Type: zfs.VDevTypeFile, Path: s3path}}
 	vdevs = []zfs.VDevTree{
-		zfs.VDevTree{Type: zfs.VDevTypeMirror, Devices: mdevs},
+		{Type: zfs.VDevTypeMirror, Devices: mdevs},
 	}
 	vdev.Devices = vdevs
 	vdev.Spares = sdevs
@@ -478,7 +478,7 @@ func ExamplePoolCreate() {
 
 	// pool specs
 	vdevs = []zfs.VDevTree{
-		zfs.VDevTree{Type: zfs.VDevTypeMirror, Devices: mdevs},
+		{Type: zfs.VDevTypeMirror, Devices: mdevs},
 	}
 
 	vdev.Devices = vdevs

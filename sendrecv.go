@@ -1,5 +1,6 @@
 package zfs
 
+// #cgo pkg-config: libzfs
 // #include <stdlib.h>
 // #include <libzfs.h>
 // #include "common.h"
@@ -75,11 +76,9 @@ func to_boolean_t(a bool) C.boolean_t {
 
 func to_sendflags_t(flags *SendFlags) (cflags *C.sendflags_t) {
 	cflags = C.alloc_sendflags()
-	cflags.verbose = to_boolean_t(flags.Verbose)
 	cflags.replicate = to_boolean_t(flags.Replicate)
 	cflags.doall = to_boolean_t(flags.DoAll)
 	cflags.fromorigin = to_boolean_t(flags.FromOrigin)
-	cflags.dedup = to_boolean_t(flags.Dedup)
 	cflags.props = to_boolean_t(flags.Props)
 	cflags.dryrun = to_boolean_t(flags.DryRun)
 	cflags.parsable = to_boolean_t(flags.Parsable)
@@ -114,7 +113,7 @@ func (d *Dataset) send(FromName string, outf *os.File, flags *SendFlags) (err er
 
 	if d.Type != DatasetTypeSnapshot || (len(FromName) > 0 && strings.Contains(FromName, "#")) {
 		err = fmt.Errorf(
-			"Unsupported method on filesystem or bookmark. Use func SendOne() for that purpose.")
+			"unsupported method on filesystem or bookmark. Use func SendOne() for that purpose.")
 		return
 	}
 
@@ -210,11 +209,11 @@ func (d *Dataset) SendFrom(FromName string, outf *os.File, flags SendFlags) (err
 		from = strings.Split(FromName, "@")
 
 		if len(from[0]) > 0 && from[0] != dest[0] {
-			err = fmt.Errorf("Incremental source must be in same filesystem.")
+			err = fmt.Errorf("incremental source must be in same filesystem")
 			return
 		}
 		if len(from) < 2 || strings.Contains(from[1], "@") || strings.Contains(from[1], "/") {
-			err = fmt.Errorf("Invalid incremental source.")
+			err = fmt.Errorf("invalid incremental source")
 			return
 		}
 	}
@@ -245,7 +244,7 @@ func (d *Dataset) SendSize(FromName string, flags SendFlags) (size int64, err er
 		var tmpe error
 		saveOut := C.redirect_libzfs_stdout(C.int(w.Fd()))
 		if saveOut < 0 {
-			tmpe = fmt.Errorf("Redirection of zfslib stdout failed %d", saveOut)
+			tmpe = fmt.Errorf("redirection of zfslib stdout failed %d", saveOut)
 		} else {
 			tmpe = d.send(FromName, w, &flags)
 			C.restore_libzfs_stdout(saveOut)
@@ -283,7 +282,7 @@ func (d *Dataset) Receive(inf *os.File, flags RecvFlags) (err error) {
 	}
 	props := C.new_property_nvlist()
 	if props == nil {
-		err = fmt.Errorf("Out of memory func (d *Dataset) Recv()")
+		err = fmt.Errorf("out of memory func (d *Dataset) Recv()")
 		return
 	}
 	defer C.nvlist_free(props)
@@ -305,7 +304,7 @@ func (rt *ResumeToken) Unpack(token string) (err error) {
 	resume_nvl := C.zfs_send_resume_token_to_nvlist(C.libzfsHandle, ctoken)
 	defer C.nvlist_free(resume_nvl)
 	if resume_nvl == nil {
-		err = fmt.Errorf("Failed to unpack resume token: %s", LastError().Error())
+		err = fmt.Errorf("failed to unpack resume token: %s", LastError().Error())
 		return
 	}
 	if rt.ToName, err = rt.lookupString(resume_nvl, "toname"); err != nil {

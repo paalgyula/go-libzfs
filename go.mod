@@ -1,3 +1,3 @@
-module github.com/bicomsystems/go-libzfs
+module github.com/paalgyula/go-libzfs
 
 go 1.13
