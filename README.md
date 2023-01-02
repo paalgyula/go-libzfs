@@ -1,12 +1,13 @@
 # Introduction
 
+### This repository is a fork of [bicomsystems/go-libzfs](https://github.com/bicomsystems/go-libzfs) but updated to the latest version (2.7.1) of ZFS.
+
 **go-libzfs** currently implements basic manipulation of ZFS pools and data sets. Plan is to add more in further development, improve documentation with more examples, and add more tests. _go-libzfs_ use libzfs C library and does not wrap OpenZFS CLI tools. Goal is to let easy using and manipulating OpenZFS form with in go, and tries to map libzfs C library in to go style package respecting golang common practice.
 
-## Note
+## Notes
 This golang package is only used and tested on Linux.
 
-- Version tagged as v0.1 is latest used and compatible with ZFS On Linux version 0.6.5.x
-- Version tagged as v0.2 is latest used and compatible with ZFS On Linux version 0.7.x
+- Version tagged as v1.0.0 is latest used and compatible with ZFS On Linux version **2.1.7**
 
 [![GoDoc](https://godoc.org/github.com/paalgyula/go-libzfs?status.svg)](https://godoc.org/github.com/paalgyula/go-libzfs)
 
