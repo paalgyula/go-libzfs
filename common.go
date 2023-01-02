@@ -144,7 +144,7 @@ const (
 // Pool properties. Enumerates available ZFS pool properties. Use it to access
 // pool properties either to read or set soecific property.
 const (
-	PoolPropCont Prop = iota - 2
+	PoolPropCont Prop = iota - 2 // ??
 	PoolPropInval
 	PoolPropName
 	PoolPropSize
@@ -178,7 +178,25 @@ const (
 	PoolPropCheckpoint
 	PoolPropLoadGuid
 	PoolPropAutotrim
-	PoolPropUnknown // TODO: examine wtf is this
+
+	// PoolPropCompatibility property to allow sets of features to be specified; for compatibility
+	// with specific versions / releases / external systems. Influences
+	// the behavior of 'zpool upgrade' and 'zpool create'. Initial man
+	// page changes and test cases included.
+	//
+	// Brief synopsis:
+	//
+	// zpool create -o compatibility=off|legacy|file[,file...] pool vdev...
+	//
+	// compatibility = off : disable compatibility mode (enable all features)
+	// compatibility = legacy : request that no features be enabled
+	// compatibility = file[,file...] : read features from specified files.
+	// Only features present in *all* files will be enabled on the
+	// resulting pool. Filenames may be absolute, or relative to
+	// /etc/zfs/compatibility.d or /usr/share/zfs/compatibility.d (/etc checked first).
+	//
+	// Only affects zpool create, zpool upgrade and zpool status.
+	PoolPropCompatibility
 	PoolNumProps
 )
 
@@ -281,7 +299,12 @@ const (
 	DatasetPropEncryptionRoot
 	DatasetPropKeyGUID
 	DatasetPropKeyStatus
-	DatasetPropRemapTXG /* not exposed to the user */
+	DatasetPropRemapTXG /* obsolete - no longer used */
+	DatasetPropSpecialSmallBlocks
+	DatasetPropIvsetGuid /* not exposed to the user */
+	DatasetPropRedacted
+	DatasetPropRedactSnaps
+	DatasetPropSnapshotsChanged
 	DatasetNumProps
 )
 
